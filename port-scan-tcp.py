@@ -1,14 +1,31 @@
 import sys
 from scapy.all import *
 
-RTR_IP_ADDR = '10.10.111.1'
-PORT_RANGE = range(0,100+1) #interval [0,100]
+#####
+# TCP Port Scanning
+# Scans for the TCP ports on the target IP address.
+#
+# Returns all the OPEN, CLOSED and FILTERED ports of the target.
+#
+# Author: Birkan Mert Erenler
+#
+# How To Run?
+#   -> Open a command line, type 'python port-scan-tcp.py TARGET_IP_ADDRESS'
+#   -> Example: python port-scan-tcp.py 192.168.1.1
+#####
 
-#Port Status Constants:
+# Get the target IP address from the standard input:
+IP_ADDR = input("Please enter a target IP address for TCP port scanning: ")
+print("You have entered: ", IP_ADDR)
+
+PORT_RANGE = range(0,65536)
+
+# Port Status Constants:
 OPEN = 0
 CLOSED = 1
 FILTERED = 2
 
+# Inspect the status of a given port:
 def inspect_status(pkt, ans, port, start):
 	if ans == None and start:
 		ans = sr1(pkt, timeout=1, verbose=0)
@@ -26,12 +43,13 @@ def inspect_status(pkt, ans, port, start):
 
 port_status_array = [None]*(len(PORT_RANGE))
 
-print 'Scanning TCP ports 0-100 for target rtr @10.10.111.1...   '
+print 'Scanning all TCP ports for target IP address you have entered...   '
 for port in PORT_RANGE:
-	pkt = IP(dst=RTR_IP_ADDR) / TCP(dport=port,flags='S') #a TCP SYN packet
+	pkt = IP(dst=IP_ADDR) / TCP(dport=port,flags='S') #a TCP SYN packet
 	ans = sr1(pkt, timeout=1, verbose=0)
 	port_status_array[port] = inspect_status(pkt, ans, port, True)
 
+# Output the results:
 port_status = tuple(enumerate(port_status_array))
 port_status = sorted(port_status, key=lambda x: x[1])
 
