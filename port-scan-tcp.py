@@ -43,6 +43,7 @@ def inspect_status(pkt, ans, port, start):
 
 port_status_array = [None]*(len(PORT_RANGE))
 
+# Scan:
 print 'Scanning all TCP ports for target IP address you have entered...   '
 for port in PORT_RANGE:
 	pkt = IP(dst=IP_ADDR) / TCP(dport=port,flags='S') #a TCP SYN packet
