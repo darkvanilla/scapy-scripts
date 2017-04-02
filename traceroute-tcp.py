@@ -8,8 +8,8 @@ from scapy.all import *
 # Author: Birkan Mert Erenler
 #
 # How To Run?
-#   -> Open a command line, type 'python tcp-traceroute.py TARGET_IP_ADDRESS'
-#   -> Example: python tcp-traceroute.py 127.0.0.1
+#   -> Open a command line, type 'python traceroute-tcp.py TARGET_IP_ADDRESS'
+#   -> Example: python traceroute-tcp.py 127.0.0.1
 #####
 
 MAX_TTL = 30 # maximum no. of hops to end traceroute
